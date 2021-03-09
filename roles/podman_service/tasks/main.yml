@@ -3,6 +3,13 @@
     name: "{{ utils_podman_service_packages }}"
     state: installed
 
+- name: Fix Podman systemd service file (missing Install section)
+  community.general.ini_file:
+    path: /usr/lib/systemd/system/podman.service
+    section: Install
+    option: WantedBy
+    value: multi-user.target
+
 # - name: Deploy containers configuration
 #   ansible.builtin.template:
 #     src: containers.conf.j2
