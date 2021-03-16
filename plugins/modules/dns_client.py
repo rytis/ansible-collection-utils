@@ -1,6 +1,60 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
+DOCUMENTATION = """
+module: dns_client
+short_description: Manage DNS records on various DNS providers
+description:
+  - Manage DNS records on a selection of popular DNS providers.
+    Module uses `python-lexicon` under the hood to interact with
+    DNS providers
+author: Rytis Sileika (@rytis)
+requirements:
+  - python-lexicon
+options:
+  - provider_name:
+      description:
+        - Name of the provider to use. Must match a name of the available providers in `python-lexicon`
+      type: str
+      required: True
+  - action:
+      description:
+        - Action to perform
+      type: str
+      choices: [create, delete]
+      required: True
+  - domain:
+      description:
+        - Top level domain name
+      type: str
+      required: True
+  - type:
+      description:
+        - Type of record to manage
+      type: str
+      choices: [A, AAAA, CNAME, MX, NS, SOA, TXT, SRV]
+  - name:
+      description:
+        - Name of the entry
+      type: str
+  - content:
+      description:
+        - Contents of the record. The actual contents
+          depend on the record type. For an A record this
+          would be an IP address.
+      type: str
+  - delegated:
+      description:
+        - If records are te be managed for a subdomain, this
+          specifies subdomain name
+      type: str
+  - provider_options:
+      description:
+        - Provider specific options, such as server URI and
+          authentication details
+      type: dict
+      required: True
+"""
 
 from ansible.module_utils.basic import AnsibleModule
 from lexicon.client import Client
