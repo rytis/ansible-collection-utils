@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 DOCUMENTATION = """
-module: dns_client
+module: dns_provider
 short_description: Manage DNS records on various DNS providers
 description:
   - Manage DNS records on a selection of popular DNS providers.
@@ -58,7 +58,7 @@ options:
 
 EXAMPLES = """
     - name: Create a new A record (test.my_subdomain.example.com -> 192.168.0.1) on PowerDNS server
-      rytis.utils.dns_client:
+      rytis.utils.dns_provider:
         provider_name: "powerdns"
         action: "create"
         delegated: "my_subdomain"
