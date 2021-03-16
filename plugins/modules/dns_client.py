@@ -56,6 +56,22 @@ options:
       required: True
 """
 
+EXAMPLES = """
+    - name: Create a new A record (test.my_subdomain.example.com -> 192.168.0.1) on PowerDNS server
+      rytis.utils.dns_client:
+        provider_name: "powerdns"
+        action: "create"
+        delegated: "my_subdomain"
+        domain: "example.com"
+        type: "A"
+        name: "test"
+        content: "192.168.0.1"
+        provider_options:
+          pdns_server: "http://<powerdns_authoritative_server_address>:8081"
+          auth_token: "<powerdns_auth_server_token>"
+"""
+
+
 from ansible.module_utils.basic import AnsibleModule
 from lexicon.client import Client
 from lexicon.config import ConfigResolver
