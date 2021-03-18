@@ -12,19 +12,26 @@ class PDNSAuthClient:
         self.auth_header = {"X-API-Key": auth_key}
 
     def create_zone(self, zone):
+        if self._zone_exists(zone):
+            return False
         zone_data = {
             "name": zone,
             "type": "Zone",
             "kind": "Master",
         }
         r = requests.post(self.zones_url, headers=self.auth_header, json=zone_data)
+        return True
 
     def delete_zone(self, zone):
+        if not self._zone_exists(zone):
+            return False
         zone_url = "{}/{}".format(self.zones_url, zone)
         r = requests.delete(zone_url, headers=self.auth_header)
+        return True
 
     def _zone_exists(self, zone):
-        pass
+        r = requests.get(self.zones_url, headers=self.auth_header, params={"zone": zone})
+        return 0 < len(r.json())
 
 
 def main():
@@ -38,13 +45,14 @@ def main():
     )
 
     c = PDNSAuthClient(module.params["api_url"], module.params["api_token"])
+    changed = False
 
     if module.params["state"] == "present":
-        c.create_zone(module.params["name"])
+        changed = c.create_zone(module.params["name"])
     elif module.params["state"] == "absent":
-        c.delete_zone(module.params["name"])
+        changed = c.delete_zone(module.params["name"])
 
-    module.exit_json()
+    module.exit_json(changed=changed)
 
 
 if __name__ == "__main__":
