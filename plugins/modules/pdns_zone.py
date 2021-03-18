@@ -18,6 +18,7 @@ class PDNSAuthClient:
             "name": zone,
             "type": "Zone",
             "kind": "Master",
+            "nameservers": ["ns.{}".format(zone),],
         }
         r = requests.post(self.zones_url, headers=self.auth_header, json=zone_data)
         return True
