@@ -6,12 +6,25 @@ from ansible.module_utils.basic import AnsibleModule
 
 
 class PDNSAuthClient:
+    """Client class to interact with PowerDNS authoritative server
+
+    :param url: URL of PowerDNS Auth API service
+    :param auth_key: Auth key to allow access to the API service
+    :param server: server name to manage. Default: `localhost`
+    """
+
     def __init__(self, url, auth_key, server="localhost"):
         self.server_base_url = "{}/api/v1/servers/{}".format(url, server)
         self.zones_url = "{}/zones".format(self.server_base_url)
         self.auth_header = {"X-API-Key": auth_key}
 
     def create_zone(self, zone):
+        """Create new zone if the zone does not exist yet
+
+        :param zone: Name of the zone to create. Must include trailing period
+        :returns: `True` if the zone was created, `False` if the zone already exists.
+        """
+
         if self._zone_exists(zone):
             return False
         zone_data = {
@@ -24,6 +37,12 @@ class PDNSAuthClient:
         return True
 
     def delete_zone(self, zone):
+        """Remove zone if it exists
+
+        :param zone: Name of the zone to remove.
+        :returns: `True` if the zone was removed, `False` if the zone does not exist.
+        """
+
         if not self._zone_exists(zone):
             return False
         zone_url = "{}/{}".format(self.zones_url, zone)
@@ -31,6 +50,8 @@ class PDNSAuthClient:
         return True
 
     def _zone_exists(self, zone):
+        """Check if the zone exists"""
+
         r = requests.get(self.zones_url, headers=self.auth_header, params={"zone": zone})
         return 0 < len(r.json())
 
