@@ -1,6 +1,39 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
+DOCUMENTATION = """
+module: pdns_zone
+short_description: Manage DNS zones on PowerDNS authoritative server
+description:
+  - Manage DNS zones on PowerDNS authoritative server
+author: Rytis Sileika (@rytis)
+requirements:
+  - requests
+options:
+  - state:
+      description:
+        - Zone state
+      type: str
+      choices: [present, absent]
+      required: True
+  - api_url:
+      description:
+        - PowerDNS authoritative server API URL
+      type: str
+      required: True
+  - api_token:
+      description:
+        - API token
+      type: str
+      required: True
+  - name:
+      description:
+        - Name of the zone to manage
+      type: str
+      required: True
+"""
+
+
 import requests
 from ansible.module_utils.basic import AnsibleModule
 
