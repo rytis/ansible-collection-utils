@@ -33,6 +33,15 @@ options:
       required: True
 """
 
+EXAMPLES = """
+    - name: Create new zone record
+      rytis.utils.pdns_zone:
+        api_url: "http://pdns_auth_server_fqdn:8081/"
+        api_token: "<secret_auth_token>"
+        name: "example.com"
+        state: "present"
+"""
+
 
 import requests
 from ansible.module_utils.basic import AnsibleModule
