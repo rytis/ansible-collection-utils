@@ -14,8 +14,14 @@ jobs:
          python-version: 3.9
      - name: Install ansible
        run: |
-         python -m pip install --upgrade pip
-         python -m pip install ansible
-     - name: Run ansible galaxy build
+           python -m pip install --upgrade pip
+           python -m pip install ansible
+     - name: Build galaxy collection
        run: |
-         ansible-galaxy collection build
+           ansible-galaxy collection build
+     - name: Get package version
+       run: |
+           echo "PACKAGE_VERSION=$(awk '/version:/ {print $2}' galaxy.yml)" >> $GITHUB_ENV
+     - name: Publish collection to Galaxy
+       run: |
+           ansible-galaxy collection publish rytis-utils-${{ env.PACKAGE_VERSION }}.tar.gz --token=${{env.GALAXY_TOKEN}}
