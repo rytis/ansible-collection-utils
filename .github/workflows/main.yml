@@ -23,5 +23,7 @@ jobs:
        run: |
            echo "PACKAGE_VERSION=$(awk '/version:/ {print $2}' galaxy.yml)" >> $GITHUB_ENV
      - name: Publish collection to Galaxy
+       env:
+         GALAXY_TOKEN: ${{ secrets.GALAXY_TOKEN }}
        run: |
-           ansible-galaxy collection publish rytis-utils-${{ env.PACKAGE_VERSION }}.tar.gz --token=${{env.GALAXY_TOKEN}}
+           ansible-galaxy collection publish rytis-utils-${{ env.PACKAGE_VERSION }}.tar.gz --token=$GALAXY_TOKEN
