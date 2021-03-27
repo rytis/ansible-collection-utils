@@ -18,4 +18,4 @@ jobs:
          python -m pip install ansible
      - name: Run ansible galaxy build
        run: |
-         ansible-galaxy
+         ansible-galaxy collection build
