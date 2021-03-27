@@ -14,7 +14,8 @@ requirements:
 options:
   - provider_name:
       description:
-        - Name of the provider to use. Must match a name of the available providers in `python-lexicon`
+        - Name of the provider to use. Must match a name of the
+          available providers in `python-lexicon`
       type: str
       required: True
   - action:
@@ -57,7 +58,7 @@ options:
 """
 
 EXAMPLES = """
-    - name: Create a new A record (test.my_subdomain.example.com -> 192.168.0.1) on PowerDNS server
+    - name: Create a new A record
       rytis.utils.dns_provider:
         provider_name: "powerdns"
         action: "create"
@@ -72,9 +73,9 @@ EXAMPLES = """
 """
 
 
-from ansible.module_utils.basic import AnsibleModule
-from lexicon.client import Client
-from lexicon.config import ConfigResolver
+from ansible.module_utils.basic import AnsibleModule  # noqa: E402
+from lexicon.client import Client  # noqa: E402
+from lexicon.config import ConfigResolver  # noqa: E402
 
 
 SUPPORTED_RECORDS = ["A", "AAAA", "CNAME", "MX", "NS", "SOA", "TXT", "SRV"]
@@ -110,4 +111,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-

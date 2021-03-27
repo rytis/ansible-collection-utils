@@ -43,8 +43,8 @@ EXAMPLES = """
 """
 
 
-import requests
-from ansible.module_utils.basic import AnsibleModule
+import requests  # noqa: E402
+from ansible.module_utils.basic import AnsibleModule  # noqa: E402
 
 
 class PDNSAuthClient:
@@ -64,7 +64,8 @@ class PDNSAuthClient:
         """Create new zone if the zone does not exist yet
 
         :param zone: Name of the zone to create. Must include trailing period
-        :returns: `True` if the zone was created, `False` if the zone already exists.
+        :returns: `True` if the zone was created,
+                  `False` if the zone already exists.
         """
 
         if self._zone_exists(zone):
@@ -73,35 +74,41 @@ class PDNSAuthClient:
             "name": zone,
             "type": "Zone",
             "kind": "Master",
-            "nameservers": ["ns.{}".format(zone),],
+            "nameservers": ["ns.{}".format(zone), ],
         }
-        r = requests.post(self.zones_url, headers=self.auth_header, json=zone_data)
+        r = requests.post(self.zones_url,  # noqa: F841
+                          headers=self.auth_header,
+                          json=zone_data)
         return True
 
     def delete_zone(self, zone):
         """Remove zone if it exists
 
         :param zone: Name of the zone to remove.
-        :returns: `True` if the zone was removed, `False` if the zone does not exist.
+        :returns: `True` if the zone was removed,
+                  `False` if the zone does not exist.
         """
 
         if not self._zone_exists(zone):
             return False
         zone_url = "{}/{}".format(self.zones_url, zone)
-        r = requests.delete(zone_url, headers=self.auth_header)
+        r = requests.delete(zone_url, headers=self.auth_header)  # noqa: F841
         return True
 
     def _zone_exists(self, zone):
         """Check if the zone exists"""
 
-        r = requests.get(self.zones_url, headers=self.auth_header, params={"zone": zone})
+        r = requests.get(self.zones_url,
+                         headers=self.auth_header,
+                         params={"zone": zone})
         return 0 < len(r.json())
 
 
 def main():
     module = AnsibleModule(
         argument_spec={
-            "state": {"type": "str", "choices": ["present", "absent"], "default": "present"},
+            "state": {"type": "str", "choices": ["present", "absent"],
+                      "default": "present"},
             "api_url": {"type": "str", "required": True},
             "api_token": {"type": "str", "required": True},
             "name": {"type": "str", "required": True},
@@ -121,4 +128,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
