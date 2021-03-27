@@ -1,7 +1,9 @@
 name: Ansible Galaxy
 
 on:
-  push
+  push:
+    tags:
+      - '*'
 
 jobs:
   publish-to-galaxy:
