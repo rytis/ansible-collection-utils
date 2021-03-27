@@ -5,6 +5,7 @@ on:
 
 jobs:
   publish-to-galaxy:
+    environment: Galaxy
     runs-on: ubuntu-latest
     steps:
      - uses: actions/checkout@v2
