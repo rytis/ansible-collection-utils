@@ -1,0 +1,9 @@
+galaxy_info:
+  role_name: podman_service
+  author: Rytis Sileika <rts.pub@pulegium.eu>
+  description: Install and enable Podman service
+  license: GPLv3
+  min_ansible_version: 2.9
+  galaxy_tags:
+    - podman
+  dependencies: []

@@ -1,3 +1,3 @@
 # Ansible Collection - rytis.utils
 
-Documentation for the collection.
+Various utility roles and modules
